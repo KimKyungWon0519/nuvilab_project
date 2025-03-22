@@ -19,7 +19,7 @@ abstract class ResponseResult with _$ResponseResult {
 abstract class Header with _$Header {
   const factory Header({
     required String resultMsg,
-    required int resultCode,
+    required String resultCode,
   }) = _Header;
 
   factory Header.fromJson(Map<String, Object?> json) => _$HeaderFromJson(json);
