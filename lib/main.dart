@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:nuvilab_project/core/routes/app_pages.dart';
+import 'package:nuvilab_project/dependency_injection.dart';
 
 void main() {
+  initialize();
+
   runApp(const MainApp());
 }
 
