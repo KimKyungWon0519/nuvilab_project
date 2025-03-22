@@ -1,5 +1,5 @@
-import 'package:nuvilab_project/domain/model/fine_dust_by_city.dart';
+import 'package:nuvilab_project/domain/model/mesuring_fine_dust.dart';
 
 abstract interface class FineDustRepository {
-  Future<List<FineDustByCity>> getFineDustByCities();
+  Future<List<MesuringFineDust>> getFineDustByCities();
 }

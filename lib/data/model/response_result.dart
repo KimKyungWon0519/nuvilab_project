@@ -17,12 +17,16 @@ abstract class ResponseResult with _$ResponseResult {
 
 @freezed
 abstract class Header with _$Header {
+  const Header._();
+
   const factory Header({
     required String resultMsg,
     required String resultCode,
   }) = _Header;
 
   factory Header.fromJson(Map<String, Object?> json) => _$HeaderFromJson(json);
+
+  bool get isSuccessfully => resultCode == '00';
 }
 
 @freezed
