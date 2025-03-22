@@ -1,6 +1,21 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:nuvilab_project/core/constants/api_constant.dart';
+import 'package:nuvilab_project/core/network/retry_interceptor.dart';
+import 'package:nuvilab_project/data/service/fine_dust_api_client.dart';
 
 void main() {
+  print('baseURL:$baseURL, serviceKey : $serviceKey');
+
+  Dio dio = Dio(
+    BaseOptions(
+      baseUrl: baseURL,
+      queryParameters: {'serviceKey': serviceKey, 'returnType': 'json'},
+    ),
+  );
+
+  FineDustApiClient(dio: dio).getAveragePM10();
+
   runApp(const MainApp());
 }
 
