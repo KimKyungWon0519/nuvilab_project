@@ -14,7 +14,7 @@ class CityFineDust extends StatelessWidget {
     return ListTile(
       title: Text(fineDustByCity.cityName),
       subtitle: Text(
-          '미세먼지 : ${fineDustByCity.pm10} ㎍/㎥\n초미세먼지 : ${fineDustByCity.pm10} ㎍/㎥'),
+          '미세먼지 : ${fineDustByCity.pm10} ㎍/㎥\n초미세먼지 : ${fineDustByCity.pm25} ㎍/㎥'),
       isThreeLine: true,
     );
   }
