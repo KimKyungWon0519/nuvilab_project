@@ -27,7 +27,8 @@ class RetryInterceptor extends Interceptor {
     err.requestOptions.extra['retryCount'] = retryCount;
     int deley = _intialMS * 1 << (retryCount - 1);
 
-    Logger().d('연결 실패 재시도 중... 횟수 : $retryCount, 지연시간 : $deley');
+    Logger().d(
+        '연결 실패 재시도 중... 횟수 : $retryCount, 지연시간 : $deley, 라우터 :${err.requestOptions.uri.path}');
 
     await Future.delayed(Duration(milliseconds: deley));
 
