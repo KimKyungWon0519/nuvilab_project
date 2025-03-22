@@ -9,10 +9,14 @@ class TimePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          DateFormat('yyyy-MM-dd').format(
-            DateTime.now(),
-          ),
+          DateFormat('yyyy-MM-dd').format(DateTime.now()),
         ),
+      ),
+      body: ListView.builder(
+        itemBuilder: (context, index) => ListTile(
+          title: Text('$index시'),
+        ),
+        itemCount: 24,
       ),
     );
   }
