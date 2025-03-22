@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'local_widgets/time_fine_dust.dart';
+
 class TimePage extends StatelessWidget {
   const TimePage({super.key});
 
@@ -12,11 +14,8 @@ class TimePage extends StatelessWidget {
           DateFormat('yyyy-MM-dd').format(DateTime.now()),
         ),
       ),
-      body: ListView.builder(
-        itemBuilder: (context, index) => ListTile(
-          title: Text('$index시'),
-        ),
-        itemCount: 24,
+      body: SingleChildScrollView(
+        child: TimeFineDust(),
       ),
     );
   }
