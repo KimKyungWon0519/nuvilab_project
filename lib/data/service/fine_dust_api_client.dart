@@ -18,4 +18,14 @@ class FineDustApiClient {
       },
     ).then((value) => ResponseResult.fromJson(value.data['response']));
   }
+
+  Future<ResponseResult> getAveragePM25() async {
+    return _dio.get(
+      getMesuringList,
+      queryParameters: {
+        'itemCode': 'PM25',
+        'dataGubun': 'HOUR',
+      },
+    ).then((value) => ResponseResult.fromJson(value.data['response']));
+  }
 }
