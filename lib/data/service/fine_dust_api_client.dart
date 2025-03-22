@@ -18,6 +18,7 @@ class FineDustApiClient {
       getMesuringList,
       queryParameters: {
         'itemCode': 'PM10',
+        'dataGubun': 'HOUR',
       },
     ).then(
       (value) {
