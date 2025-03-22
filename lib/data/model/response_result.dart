@@ -8,7 +8,7 @@ part 'response_result.g.dart';
 abstract class ResponseResult with _$ResponseResult {
   const factory ResponseResult({
     required Header header,
-    required Body body,
+    required Body? body,
   }) = _ResponseResult;
 
   factory ResponseResult.fromJson(Map<String, Object?> json) =>
