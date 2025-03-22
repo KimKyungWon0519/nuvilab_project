@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nuvilab_project/core/routes/app_pages.dart';
 import 'package:nuvilab_project/dependency_injection.dart';
 
 void main() {
   initialize();
 
-  runApp(const MainApp());
+  runApp(const ProviderScope(child: MainApp()));
 }
 
 class MainApp extends StatelessWidget {

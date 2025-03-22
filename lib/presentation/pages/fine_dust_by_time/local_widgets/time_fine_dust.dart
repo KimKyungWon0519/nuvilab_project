@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:nuvilab_project/domain/model/fine_dust_by_city.dart';
+import 'package:nuvilab_project/domain/model/mesuring_fine_dust.dart';
+import 'package:nuvilab_project/presentation/riverpods/fine_dust_by_time_notifier.dart';
+import 'package:nuvilab_project/domain/model/mesuring_fine_dust_list.dart';
 
-import 'city_fine_dust.dart';
+import 'city_fine_dust%20_listview.dart';
 
-class TimeFineDust extends HookWidget {
+class TimeFineDust extends HookConsumerWidget {
   const TimeFineDust({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final tileStateList =
         List.generate(Duration.hoursPerDay, (_) => useState(false));
+    final List<MesuringFineDust> mesuringDatas =
+        ref.watch(fineDustByTimeNotifierProvider);
 
     return ExpansionPanelList(
       expansionCallback: (panelIndex, isExpanded) {
@@ -18,17 +25,34 @@ class TimeFineDust extends HookWidget {
       },
       children: List.generate(
         Duration.hoursPerDay,
-        (index) => ExpansionPanel(
-          headerBuilder: (context, isExpanded) => ListTile(
-            title: Text(
-              '${NumberFormat('00').format(index)}시',
+        (index) {
+          List<FineDustByCity> fineDustByCities =
+              mesuringDatas.getFineDustByCities(_convertDateTime(index));
+
+          return ExpansionPanel(
+            headerBuilder: (context, isExpanded) => ListTile(
+              title: Text(
+                '${NumberFormat('00').format(index)}시',
+              ),
             ),
-          ),
-          body: CityFineDust(cityName: '지역이름', pm10: 0, pm25: 0),
-          isExpanded: tileStateList[index].value,
-          canTapOnHeader: true,
-        ),
+            body: fineDustByCities.isNotEmpty
+                ? CityFineDustListview(fineDustByCities: fineDustByCities)
+                : Text('데이터가 없습니다.'),
+            isExpanded: tileStateList[index].value,
+            canTapOnHeader: true,
+          );
+        },
       ),
+    );
+  }
+
+  DateTime _convertDateTime(int sourceHour) {
+    return DateTime.now().copyWith(
+      hour: sourceHour,
+      minute: 0,
+      second: 0,
+      millisecond: 0,
+      microsecond: 0,
     );
   }
 }
