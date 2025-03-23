@@ -1,7 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:nuvilab_project/core/routes/app_routes.dart';
 
-final class AppPages {
+class AppPages {
   const AppPages._();
 
   static final String _initialLocation = AppRoutes.fineDustByTime.path;
