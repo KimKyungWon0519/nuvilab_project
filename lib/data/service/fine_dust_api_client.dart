@@ -3,7 +3,7 @@ import 'package:logger/web.dart';
 import 'package:nuvilab_project/core/constants/api_constant.dart';
 import 'package:nuvilab_project/core/network/retry_interceptor.dart';
 import 'package:nuvilab_project/data/model/get_mesuring_list_param.dart';
-import 'package:nuvilab_project/data/model/response_result.dart';
+import 'package:nuvilab_project/data/model/api_service_result.dart';
 
 class FineDustApiClient {
   late final Dio _dio;
@@ -14,14 +14,14 @@ class FineDustApiClient {
     _dio.interceptors.add(RetryInterceptor(dio: _dio));
   }
 
-  Future<ResponseResult> getMesuringList(GetMesuringListParam param) async {
+  Future<ApiServiceResult> getMesuringList(GetMesuringListParam param) async {
     try {
       Response response = await _dio.get(
         getMesuringListPath,
         queryParameters: param.toJson(),
       );
-      ResponseResult responseResult =
-          ResponseResult.fromJson(response.data['response']);
+      ApiServiceResult responseResult =
+          ApiServiceResult.fromJson(response.data['response']);
 
       Logger()
           .i('FineDustApiClient.getMesuringList - ${responseResult.header}');
@@ -34,7 +34,7 @@ class FineDustApiClient {
         stackTrace: stackTrace,
       );
 
-      return ResponseResult(
+      return ApiServiceResult(
         header: Header(resultMsg: '통신 오류', resultCode: '-1'),
         body: null,
       );

@@ -21,4 +21,8 @@ class FineDustLocalStorage {
       );
     }
   }
+
+  List<MesuringDataIsar> getData(DateTime dateTime) {
+    return _isar.mesuringDataIsars.where().dateEqualTo(dateTime).findAllSync();
+  }
 }

@@ -1,18 +1,18 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:nuvilab_project/data/model/mesuring_data.dart';
 
-part 'response_result.freezed.dart';
-part 'response_result.g.dart';
+part 'api_service_result.freezed.dart';
+part 'api_service_result.g.dart';
 
 @freezed
-abstract class ResponseResult with _$ResponseResult {
-  const factory ResponseResult({
+abstract class ApiServiceResult with _$ApiServiceResult {
+  const factory ApiServiceResult({
     required Header header,
     required Body? body,
-  }) = _ResponseResult;
+  }) = _ApiServiceResult;
 
-  factory ResponseResult.fromJson(Map<String, Object?> json) =>
-      _$ResponseResultFromJson(json);
+  factory ApiServiceResult.fromJson(Map<String, Object?> json) =>
+      _$ApiServiceResultFromJson(json);
 }
 
 @freezed

@@ -16,7 +16,7 @@ class TimeFineDust extends HookConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final tileStateList =
         List.generate(Duration.hoursPerDay, (_) => useState(false));
-    final List<MesuringFineDust> mesuringDatas =
+    final AsyncValue<List<MesuringFineDust>> mesuringDatas =
         ref.watch(fineDustByTimeNotifierProvider);
 
     return ExpansionPanelList(
@@ -26,8 +26,12 @@ class TimeFineDust extends HookConsumerWidget {
       children: List.generate(
         Duration.hoursPerDay,
         (index) {
-          List<FineDustByCity> fineDustByCities =
-              mesuringDatas.getFineDustByCities(_convertDateTime(index));
+          List<FineDustByCity> fineDustByCities = [];
+
+          if (mesuringDatas.hasValue) {
+            fineDustByCities = mesuringDatas.value!
+                .getFineDustByCities(_convertDateTime(index));
+          }
 
           return ExpansionPanel(
             headerBuilder: (context, isExpanded) => ListTile(

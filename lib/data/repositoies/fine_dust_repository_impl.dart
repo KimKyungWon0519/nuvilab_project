@@ -1,8 +1,9 @@
+import 'package:nuvilab_project/core/utils/response_result.dart';
 import 'package:nuvilab_project/data/mapper/fine_dust_mapper.dart';
 import 'package:nuvilab_project/data/model/get_mesuring_list_param.dart';
 import 'package:nuvilab_project/data/model/mesuring_data.dart';
 import 'package:nuvilab_project/data/model/mesuring_data_isar.dart';
-import 'package:nuvilab_project/data/model/response_result.dart';
+import 'package:nuvilab_project/data/model/api_service_result.dart';
 import 'package:nuvilab_project/data/service/fine_dust_api_client.dart';
 import 'package:nuvilab_project/data/service/fine_dust_local_storage.dart';
 import 'package:nuvilab_project/domain/model/mesuring_fine_dust.dart';
@@ -19,52 +20,64 @@ class FineDustRepositoryImpl implements FineDustRepository {
         _fineDustLocalStorage = fineDustLocalStorage;
 
   @override
-  Future<List<MesuringFineDust>> getFineDustByCities() async {
-    List<MesuringFineDust> mesuringFineDust = [];
-
-    Future<ResponseResult> getAveragePM10 = _fineDustApiClient.getMesuringList(
+  Future<ResponseResult<List<MesuringFineDust>>> getFineDustByCities() async {
+    Future<ApiServiceResult> getAveragePM10 =
+        _fineDustApiClient.getMesuringList(
       GetMesuringListParam(
         itemCode: 'PM10',
         dataGubun: 'HOUR',
         numOfRows: Duration.hoursPerDay,
       ),
     );
-    Future<ResponseResult> getAveragePM25 = _fineDustApiClient.getMesuringList(
+    Future<ApiServiceResult> getAveragePM25 =
+        _fineDustApiClient.getMesuringList(
       GetMesuringListParam(
         itemCode: 'PM25',
-        dataGubun: 'HOUR',
+        dataGubun: 'ㄹ',
         numOfRows: Duration.hoursPerDay,
       ),
     );
 
-    await Future.wait([getAveragePM10, getAveragePM25]).then(
+    return await Future.wait([getAveragePM10, getAveragePM25]).then(
       (value) {
-        ResponseResult averagePM10 = value[0];
-        ResponseResult averagePM25 = value[1];
+        ApiServiceResult averagePM10 = value[0];
+        ApiServiceResult averagePM25 = value[1];
 
         if (averagePM10.header.isSuccessfully &&
             averagePM25.header.isSuccessfully) {
-          for (int i = 0; i < Duration.hoursPerDay; i++) {
-            MesuringData pm10 = averagePM10.body!.items[i];
-            MesuringData pm25 = averagePM25.body!.items[i];
+          return ResponseResult.success(
+              _transformDataAndSave(averagePM10, averagePM25));
+        } else {
+          String errorCode =
+              _getFineDustByCitiesErrorHandle(averagePM10, averagePM25);
 
-            if (pm10.dataTime == pm25.dataTime) {
-              DateTime dateTime = DateTime.parse(pm10.dataTime!);
-
-              mesuringFineDust.add(
-                MesuringFineDust(
-                  dateTime: dateTime,
-                  fineDustByCities:
-                      FineDustByCityMapper.toFineDustCities(pm10, pm25),
-                ),
-              );
-
-              _saveMesuringDataOnLocalStorage(dateTime, pm10, pm25);
-            }
-          }
+          return ResponseResult.error(errorCode);
         }
       },
     );
+  }
+
+  List<MesuringFineDust> _transformDataAndSave(
+      ApiServiceResult averagePM10, ApiServiceResult averagePM25) {
+    List<MesuringFineDust> mesuringFineDust = [];
+
+    for (int i = 0; i < Duration.hoursPerDay; i++) {
+      MesuringData pm10 = averagePM10.body!.items[i];
+      MesuringData pm25 = averagePM25.body!.items[i];
+
+      if (pm10.dataTime == pm25.dataTime) {
+        DateTime dateTime = DateTime.parse(pm10.dataTime!);
+
+        mesuringFineDust.add(
+          MesuringFineDust(
+            dateTime: dateTime,
+            fineDustByCities: FineDustByCityMapper.toFineDustCities(pm10, pm25),
+          ),
+        );
+
+        _saveMesuringDataOnLocalStorage(dateTime, pm10, pm25);
+      }
+    }
 
     return mesuringFineDust;
   }
@@ -77,5 +90,26 @@ class FineDustRepositoryImpl implements FineDustRepository {
       ..pm25 = pm25;
 
     _fineDustLocalStorage.saveData(mesuringDataIsar);
+  }
+
+  String _getFineDustByCitiesErrorHandle(
+    ApiServiceResult averagePM10,
+    ApiServiceResult averagePM25,
+  ) {
+    Set<String> errorCodes1 = {'01', '02', '04', '05'};
+    Set<String> errorCodes2 = {'03'};
+
+    String averagePM10ErrorCode = averagePM10.header.resultCode;
+    String averagePM25ErrorCode = averagePM25.header.resultCode;
+
+    if (errorCodes1.contains(averagePM10ErrorCode) ||
+        errorCodes1.contains(averagePM25ErrorCode)) {
+      return 'network-error';
+    } else if (errorCodes2.contains(averagePM10ErrorCode) ||
+        errorCodes2.contains(averagePM25ErrorCode)) {
+      return 'no-data';
+    }
+
+    return 'unknown';
   }
 }
