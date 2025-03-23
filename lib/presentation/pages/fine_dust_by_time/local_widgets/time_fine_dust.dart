@@ -21,7 +21,7 @@ class TimeFineDust extends HookConsumerWidget {
 
     return ExpansionPanelList(
       expansionCallback: (panelIndex, isExpanded) {
-        tileStateList[panelIndex].value = isExpanded;
+        tileStateList[panelIndex].value = !isExpanded;
       },
       children: List.generate(
         Duration.hoursPerDay,
