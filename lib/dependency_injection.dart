@@ -23,7 +23,10 @@ Future<void> initialize() async {
       },
     ),
   );
-  Isar isar = Isar.openSync([MesuringDataIsarSchema], directory: dir.path);
+  Isar isar = Isar.openSync(
+    [MesuringDataIsarSchema],
+    directory: dir.path,
+  );
 
   FineDustLocalStorage fineDustLocalStorage = FineDustLocalStorage(isar: isar);
   FineDustApiClient fineDustApiClient = FineDustApiClient(dio: dio);

@@ -4,20 +4,22 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:nuvilab_project/domain/model/fine_dust_by_city.dart';
 import 'package:nuvilab_project/domain/model/mesuring_fine_dust.dart';
-import 'package:nuvilab_project/presentation/riverpods/fine_dust_by_time_notifier.dart';
 import 'package:nuvilab_project/domain/model/mesuring_fine_dust_list.dart';
 
 import 'city_fine_dust_listview.dart';
 
 class TimeFineDust extends HookConsumerWidget {
-  const TimeFineDust({super.key});
+  final List<MesuringFineDust> mesuringDatas;
+
+  const TimeFineDust({
+    super.key,
+    this.mesuringDatas = const [],
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tileStateList =
         List.generate(Duration.hoursPerDay, (_) => useState(false));
-    final AsyncValue<List<MesuringFineDust>> mesuringDatas =
-        ref.watch(fineDustByTimeNotifierProvider);
 
     return ExpansionPanelList(
       expansionCallback: (panelIndex, isExpanded) {
@@ -26,12 +28,8 @@ class TimeFineDust extends HookConsumerWidget {
       children: List.generate(
         Duration.hoursPerDay,
         (index) {
-          List<FineDustByCity> fineDustByCities = [];
-
-          if (mesuringDatas.hasValue) {
-            fineDustByCities = mesuringDatas.value!
-                .getFineDustByCities(_convertDateTime(index));
-          }
+          List<FineDustByCity> fineDustByCities =
+              mesuringDatas.getFineDustByCities(_convertDateTime(index));
 
           return ExpansionPanel(
             headerBuilder: (context, isExpanded) => ListTile(

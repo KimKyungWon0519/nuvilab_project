@@ -33,7 +33,7 @@ class FineDustRepositoryImpl implements FineDustRepository {
         _fineDustApiClient.getMesuringList(
       GetMesuringListParam(
         itemCode: 'PM25',
-        dataGubun: 'ㄹ',
+        dataGubun: 'HOUR',
         numOfRows: Duration.hoursPerDay,
       ),
     );

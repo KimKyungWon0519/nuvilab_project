@@ -7,10 +7,11 @@ class FineDustLocalStorage {
 
   FineDustLocalStorage({required Isar isar}) : _isar = isar;
 
-  void saveData(MesuringDataIsar mesuringDataIsar) {
+  String get path => _isar.path!;
+
+  Future<void> saveData(MesuringDataIsar mesuringDataIsar) async {
     try {
-      _isar.writeTxnSync(
-          () => _isar.mesuringDataIsars.putSync(mesuringDataIsar));
+      await _isar.writeTxn(() => _isar.mesuringDataIsars.put(mesuringDataIsar));
 
       Logger().i('FineDustLocalStorage.saveData - $mesuringDataIsar');
     } catch (e, stackTrace) {
