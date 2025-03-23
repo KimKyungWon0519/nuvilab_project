@@ -65,6 +65,7 @@ class FineDustRepositoryImpl implements FineDustRepository {
       MesuringData pm10 = averagePM10.body!.items[i];
       MesuringData pm25 = averagePM25.body!.items[i];
 
+      /// 동일 시간일 경우에만 데이터를 병합
       if (pm10.dataTime == pm25.dataTime) {
         DateTime dateTime = DateTime.parse(pm10.dataTime!);
 
@@ -96,17 +97,17 @@ class FineDustRepositoryImpl implements FineDustRepository {
     ApiServiceResult averagePM10,
     ApiServiceResult averagePM25,
   ) {
-    Set<String> errorCodes1 = {'-1', '01', '02', '04', '05'};
-    Set<String> errorCodes2 = {'03'};
+    Set<String> networkErrorCodes = {'-1', '01', '02', '04', '05'};
+    Set<String> noDataErrorCodes = {'03'};
 
     String averagePM10ErrorCode = averagePM10.header.resultCode;
     String averagePM25ErrorCode = averagePM25.header.resultCode;
 
-    if (errorCodes1.contains(averagePM10ErrorCode) ||
-        errorCodes1.contains(averagePM25ErrorCode)) {
+    if (networkErrorCodes.contains(averagePM10ErrorCode) ||
+        networkErrorCodes.contains(averagePM25ErrorCode)) {
       return 'network-error';
-    } else if (errorCodes2.contains(averagePM10ErrorCode) ||
-        errorCodes2.contains(averagePM25ErrorCode)) {
+    } else if (noDataErrorCodes.contains(averagePM10ErrorCode) ||
+        noDataErrorCodes.contains(averagePM25ErrorCode)) {
       return 'no-data';
     }
 

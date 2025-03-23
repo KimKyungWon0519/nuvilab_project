@@ -1,6 +1,7 @@
 import 'package:nuvilab_project/data/model/mesuring_data.dart';
 import 'package:nuvilab_project/domain/model/fine_dust_by_city.dart';
 
+/// Data 모델을 Domain 모델로 변환
 class FineDustByCityMapper {
   FineDustByCityMapper._();
 
