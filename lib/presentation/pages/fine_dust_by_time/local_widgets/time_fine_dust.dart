@@ -7,7 +7,7 @@ import 'package:nuvilab_project/domain/model/mesuring_fine_dust.dart';
 import 'package:nuvilab_project/presentation/riverpods/fine_dust_by_time_notifier.dart';
 import 'package:nuvilab_project/domain/model/mesuring_fine_dust_list.dart';
 
-import 'city_fine_dust%20_listview.dart';
+import 'city_fine_dust_listview.dart';
 
 class TimeFineDust extends HookConsumerWidget {
   const TimeFineDust({super.key});
