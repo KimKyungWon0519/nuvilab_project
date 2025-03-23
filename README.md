@@ -3,6 +3,14 @@
 - Flutter Version : 3.7.12
 - Architecture : CleanArchitecture
 
+### 프로젝트 초기화
+1. .env를 project root 경로에 추가
+2. 아래의 커맨드 실행
+```
+flutter pub get
+flutter pub run build_runner build --delete-conflicting-outputs
+```
+
 ### 실행 / 설치 방법
 ```
 flutter run --dart-define-from-file=.env <build_option>
