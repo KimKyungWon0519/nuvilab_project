@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:isar/isar.dart';
+import 'package:logger/web.dart';
 import 'package:nuvilab_project/core/constants/api_constant.dart';
 import 'package:nuvilab_project/data/model/api_service_result.dart';
 import 'package:nuvilab_project/data/model/get_mesuring_list_param.dart';
@@ -19,7 +20,7 @@ class SyncDataService {
 
   static void startSync() {
     timer = Timer.periodic(_syncInterval, (timer) {
-      fetchData();
+      syncData();
     });
   }
 
@@ -30,7 +31,7 @@ class SyncDataService {
     }
   }
 
-  static Future<void> fetchData() async {
+  static Future<void> syncData() async {
     Dio dio = Dio(
       BaseOptions(
         baseUrl: baseURL,
@@ -83,7 +84,11 @@ class SyncDataService {
       DateTime dateTime, MesuringData pm10, MesuringData pm25) async {
     Isar? isar = Isar.getInstance('mesuring_data_isar');
 
-    if (isar == null) return;
+    if (isar == null) {
+      Logger().e('isar is null');
+
+      return;
+    }
 
     FineDustLocalStorage fineDustLocalStorage =
         FineDustLocalStorage(isar: isar);

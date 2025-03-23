@@ -46,6 +46,4 @@ Future<void> initialize() async {
   GetIt.I.registerLazySingleton<FineDustRepository>(() => fineDustRepository);
   GetIt.I.registerLazySingleton<FineDustLocalStorageRepository>(
       () => fineDustLocalStorageRepository);
-
-  SyncDataService.startSync();
 }
