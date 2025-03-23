@@ -7,7 +7,7 @@ import 'package:nuvilab_project/core/constants/api_constant.dart';
 import 'package:nuvilab_project/data/model/mesuring_data_isar.dart';
 import 'package:nuvilab_project/data/repositoies/fine_dust_local_storage_repository_impl.dart';
 import 'package:nuvilab_project/data/repositoies/fine_dust_repository_impl.dart';
-import 'package:nuvilab_project/data/service/sync_repository_impl.dart';
+import 'package:nuvilab_project/data/service/sync_data_service.dart';
 import 'package:nuvilab_project/data/service/fine_dust_api_client.dart';
 import 'package:nuvilab_project/data/service/fine_dust_local_storage.dart';
 import 'package:nuvilab_project/domain/repositoies/fine_dust_local_storage_repository.dart';

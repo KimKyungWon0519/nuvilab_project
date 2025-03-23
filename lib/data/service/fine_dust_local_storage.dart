@@ -24,6 +24,10 @@ class FineDustLocalStorage {
   }
 
   Future<List<MesuringDataIsar>> getData(int limit) {
-    return _isar.mesuringDataIsars.where().limit(limit).findAll();
+    return _isar.mesuringDataIsars
+        .where()
+        .sortByDateDesc()
+        .limit(limit)
+        .findAll();
   }
 }
