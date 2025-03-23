@@ -2,6 +2,7 @@
     package="com.example.nuvilab_project">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
    <application
         android:label="nuvilab_project"
