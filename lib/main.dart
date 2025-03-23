@@ -3,8 +3,10 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:nuvilab_project/core/routes/app_pages.dart';
 import 'package:nuvilab_project/dependency_injection.dart';
 
-void main() {
-  initialize();
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await initialize();
 
   runApp(const ProviderScope(child: MainApp()));
 }

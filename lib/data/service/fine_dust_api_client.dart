@@ -23,7 +23,8 @@ class FineDustApiClient {
       ResponseResult responseResult =
           ResponseResult.fromJson(response.data['response']);
 
-      Logger().i('FineDustApiClient.getAveragePM10 - ${responseResult.header}');
+      Logger()
+          .i('FineDustApiClient.getMesuringList - ${responseResult.header}');
 
       return responseResult;
     } catch (error, stackTrace) {

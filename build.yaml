@@ -1,0 +1,4 @@
+global_options:
+  freezed:freezed:
+    runs_before:
+      - isar:isar_generator
