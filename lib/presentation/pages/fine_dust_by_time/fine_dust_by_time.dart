@@ -15,7 +15,7 @@ class TimePage extends ConsumerWidget {
     AsyncValue<List<MesuringFineDust>> mesuringDatas =
         ref.watch(fineDustByTimeNotifierProvider);
 
-    if (mesuringDatas.hasError) {
+    if (!mesuringDatas.isLoading && mesuringDatas.hasError) {
       WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
         showDialog(
           context: context,
