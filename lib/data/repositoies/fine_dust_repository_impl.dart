@@ -96,7 +96,7 @@ class FineDustRepositoryImpl implements FineDustRepository {
     ApiServiceResult averagePM10,
     ApiServiceResult averagePM25,
   ) {
-    Set<String> errorCodes1 = {'01', '02', '04', '05'};
+    Set<String> errorCodes1 = {'-1', '01', '02', '04', '05'};
     Set<String> errorCodes2 = {'03'};
 
     String averagePM10ErrorCode = averagePM10.header.resultCode;
